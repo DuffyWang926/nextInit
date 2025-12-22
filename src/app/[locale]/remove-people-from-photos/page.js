@@ -205,6 +205,7 @@ export default function RemovePeople() {
         
       </Space>
       { mode !== 'manual' && <div className="exempleBox">
+        
         {exampleNode}
       </div>
        }  

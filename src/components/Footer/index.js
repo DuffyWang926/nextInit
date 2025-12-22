@@ -14,9 +14,10 @@ export default function AppFooter() {
     {
       title:'tools.remover',
       navList: [
-        { key: 'tools.removePeople', href: '/privacy' },
-        { key: 'tools.removeWatermark', href: '/contact' },
-        { key: 'tools.removeSoraWatermark', href: '/service' },
+        { key: 'tools.removePeople', href: '/remove-people-from-photos' },
+        { key: 'tools.removeWatermark', href: '/remove-watermark' },
+        { key: 'tools.removeSoraWatermark', href: '/remove-sora-watermark' },
+        { key: 'tools.removeBackground', href: '/remove-background' },
       ]
     },
     {

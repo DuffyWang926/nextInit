@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import './index.css';
 import { setIsShowVerify } from '@/features/home/homeSlice';
 import SlideReveal from '@/components/SlideReveal';
+import ExampleBox from '@/components/ExampleBox';
 import React, { useEffect } from 'react';
 export default function Home() {
   const t = useTranslations('removePeople');
@@ -63,7 +64,10 @@ export default function Home() {
     )
     return res
   })
-  
+  let exampleBoxData = {
+    title:'common.exampleTitle',
+    list:examples
+  }
   return (
     <div className="homePage">
       <BannerCon data={bannerData}/>
@@ -73,11 +77,13 @@ export default function Home() {
         onEnter={onEnter}
       />
       
-      
-      <div className="exempleBox">
+      < ExampleBox {...exampleBoxData}/>
+      {/* <div className="exempleBox">
+        <h2 className="exempleTop">
+          {t('edit.download')}
+        </h2>
         {exampleNode}
-
-      </div>
+      </div> */}
       
     </div>
   );

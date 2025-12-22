@@ -6,7 +6,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import HeadScripts from '@/components/HeadScripts';
 
 export const metadata = {
-  title: 'Remove People of photos in Seconds | EditPixelAI App',
+  title: 'Remove People from photos in Seconds | EditPixelAI App',
   description:
     'AI removes unwanted people from your photos in seconds. Free online tool, no Photoshop skills required. Upload → erase → download.',
   authors: [{ name: 'EditPixel AI', url: 'https://editpixelai.com' }],

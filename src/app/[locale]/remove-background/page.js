@@ -1,6 +1,7 @@
 'use client';
 import InputEditor from '@/components/InputEditor';
 import Editor from '@/components/Editor';
+import FileUploader from '@/components/FileUploader';
 import BannerCon from '@/components/BannerCon';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +16,7 @@ import GlobalErrorNotifier from '@/components/GlobalErrorNotifier';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 export default function RemovePeople() {
-  const t = useTranslations();
+  const t = useTranslations('removeBackground');
   const router = useRouter();
   const dispatch = useDispatch();
   const homeState = useSelector((state) => state.home);
@@ -25,7 +26,6 @@ export default function RemovePeople() {
   const { batchId, handlePaths, current, videoUrl } = editState;
   const { userId } = loginState;
   const [isModal, setIsModal] = useState(false);
-  const [showTabs, setShowTabs] = useState(false);
   const [mode, setMode] = useState('chat'); 
   useEffect(() => {
     dispatch(resetPath(originPath));
@@ -37,7 +37,6 @@ export default function RemovePeople() {
   }else{
     imgSrc = handlePaths[current]
   }
-
 
   const handleUpload = (originfile,filePath) => {
     dispatch(resetPath(filePath));
@@ -78,26 +77,17 @@ export default function RemovePeople() {
   }
 
   const bannerData = {
-    title:t('tools.watermarkTitle'),
+    title:t('removeTitle'),
     arr:[
-      t('tools.watermarkTipOne'),
-      t('removePeople.removeTipTwo') 
+      t('removeTip'),
+      t('removeTipTwo') 
     ]
   }
   let examples = [
     {
-      before:"/examples/7.png",
-      after:"/examples/8.png",
+      before:"/examples/13.png",
+      after:"/examples/14.png",
     },
-    {
-      before:"/examples/9.png",
-      after:"/examples/10.png",
-    },
-    {
-      before:"/examples/11.png",
-      after:"/examples/12.png",
-    },
-
   ]
   const exampleNode = examples.map( (v,i) =>{
     let res = (
@@ -111,54 +101,106 @@ export default function RemovePeople() {
     )
     return res
   })
+  const downLoadImg = () =>{
+    const link = document.createElement('a');
+    link.href = imgSrc;
+    link.download = 'my-image.jpg';   // 默认文件名
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  }
+  const showManualTab = () =>{
+    setMode('manual')
+  }
+  const onUpload = async (formData) =>{
+
+    formData.append("batchId", batchId);
+    formData.append("userId", userId);
+    if (!imgSrc.includes('blob')) {
+      formData.append('imgSrc', imgSrc);
+    }else{
+      // 走 blob 上传
+      const res = await fetch(imgSrc);
+      const blob = await res.blob();
+      formData.append('gif', blob, 'origin.gif');
+      formData.append('isOrigin', 'true');
+    }
+    try {
+      await dispatch(upload({ formData }));
+      message.success('upload success');
+    } catch (e) {
+      message.error('upload failed');
+    } 
+
+  }
+  const handleFileUpload =  (originfile,filePath) => {
+    console.log('Uploading:', originfile)
+    console.log('filePath:', filePath)
+    dispatch(resetPath(filePath));
+
+  }
+  let editorData = {
+    imgSrc,
+    onUpload:onUpload
+  }
+  
   return (
     <div className="removePeoplePage">
-      <BannerCon data={bannerData}/>
-      { imgSrc && < Image  className='removeImg' src={ imgSrc} preview={false}/>}
-      { showTabs ?
-        <Space className="editorBox" direction="vertical" style={{ width: '100%' }}>
-          <Space className="editorBtns">
-            <Button
-              type={mode === 'chat' ? 'primary' : 'text'}
-              onClick={() => setMode('chat')}
-            >
-              Chat Editor
-            </Button>
-            <Button
-              type={mode === 'manual' ? 'primary' : 'text'}
-              onClick={() => setMode('manual')}
-            >
-              Manual Editor
-            </Button>
-          </Space>
-          <div className="editorCon">
-            {mode === 'chat' ? (
+      { mode !== 'manual' && <BannerCon data={bannerData}/> }
+      <Space className="editorBox" direction="vertical" style={{ width: '100%' }}>
+        <Space className="editorBtns">
+          <Button
+            type={mode === 'chat' ? 'primary' : 'text'}
+            onClick={() => setMode('chat')}
+          >
+            Chat Editor
+          </Button>
+          <Button
+            type={mode === 'manual' ? 'primary' : 'text'}
+            onClick={() => setMode('manual')}
+          >
+            Manual Editor
+          </Button>
+        </Space>
+        <div className="editorCon">
+          {mode === 'chat' ? (
+            <div className="chatCon">
+              { imgSrc && 
+                <div className="resultBox"> 
+                  < Image  className='removeImg' src={ imgSrc} preview={false}/> 
+                  <div className="resultFoot">
+                    <Button className='blackBtn' onClick={showManualTab}>
+                      {t('edit.manualEditing')}
+                    </Button>
+                    <Button className='blackBtn' onClick={downLoadImg}>
+                      {t('edit.download')}
+                    </Button>
+                  </div>
+                </div>
+              }
               <InputEditor
                 str={originStr}
                 onFileChange={handleUpload}
                 onEnter={onEnter}
               />
-            ) : (
-              <Editor />
-            )}
-          </div>
-          
-        </Space>
-        :
-        <InputEditor
-          str={originStr}
-          onFileChange={handleUpload}
-          onEnter={onEnter}
-        />
-      }
-     
-     {/* <Button type="primary" onClick={() => setShowTabs(v => !v)}>
-      {showTabs ? '收起' : '高级模式'}
-    </Button> */}
-      <div className="exempleBox">
+            </div>
+          ) : (
+            <div className="manualBox">
+              <FileUploader onFileChange={handleFileUpload} />
+              <Editor {...editorData} />
+            </div>
+            
+          )}
+        </div>
+        
+      </Space>
+      { mode !== 'manual' && <div className="exempleBox">
         
         {exampleNode}
       </div>
+       }  
+      
       {isModal && <GlobalErrorNotifier  msg={t('common.pleaseLogin')} clickConfirm={handleConfirm} /> }
     </div>
   );
