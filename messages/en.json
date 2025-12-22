@@ -50,7 +50,9 @@
       "brush": "brush",
       "size": "size",
       "photo": "photo",
-      "download": "download"
+      "download": "download",
+      "manualEditing": "manualEditing"
+      
     },
     "login": {
       "email": "email:",

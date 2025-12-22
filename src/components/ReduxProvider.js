@@ -4,6 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import { store } from '@/store';
 import { useRouter } from 'next/navigation';
 import GlobalErrorNotifier from '@/components/GlobalErrorNotifier'; 
+import VerifyToken from '@/components/VerifyToken'; 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Spin } from 'antd';
 import Navbar from '@/components/Navbar/index';
@@ -18,6 +19,7 @@ function StoreAwareLayout({ children }) {
       </Spin>
       <Footer />
       <GlobalErrorNotifier />
+      <VerifyToken />
     </>
   );
 }

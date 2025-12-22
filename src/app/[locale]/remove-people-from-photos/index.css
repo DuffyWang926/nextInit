@@ -5,10 +5,8 @@
   flex-direction: column;
   padding:20px;
   background: linear-gradient(45deg, #feece2, #cbbaef);
-  .removeImg{
-    width: 200px !important;
-    height: auto !important;
-  }
+  
+  
   .editorBox{
     
     .editorBtns{
@@ -19,6 +17,36 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .chatCon{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .resultBox{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin: 20px 0 0 0;
+          .removeImg{
+            width: 200px !important;
+            height: auto !important;
+          }
+          .resultFoot{
+            margin: 20px ;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+          }
+      
+        }
+
+      }
+      .manualBox{
+        display: flex;
+        align-items: center;
+      }
 
     }
 

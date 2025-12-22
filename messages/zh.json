@@ -51,7 +51,8 @@
       "brush": "画笔",
       "size": "大小",
       "photo": "图片",
-      "download": "下载"
+      "download": "下载",
+      "manualEditing": "手动编辑"
     },
     "login": {
       "email": "邮箱：",
