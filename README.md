@@ -1,9 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## todolist
-登录 图片没缓存
-remove background
-temp userId
+blog
+page foot
+seo
 ## Getting Started
 
 First, run the development server:
