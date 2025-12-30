@@ -11,7 +11,7 @@
 !.yarn/versions
 
  .env*.local
-
+public/sitemap.xml
 # 明确忽略基础的 .env 文件（如果里面包含密钥）
 .env
 # testing
